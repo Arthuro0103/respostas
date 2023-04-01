@@ -9,11 +9,85 @@ $A = fgets(STDIN);
 $B = fgets(STDIN);
 $MEDIA =($A*3.5+$B*7.5)/11;
 echo "MEDIA = ".number_format($MEDIA,5,".","") . "\n";
-
+//1006
 $A = fgets(STDIN);
 $B = fgets(STDIN);
 $C = fgets(STDIN);
 $MEDIA =($A*2+$B*3+$C*5)/10;
 echo "MEDIA = ".number_format($MEDIA,1,".","") . "\n"
+//1008
+$NUMBER = fgets(STDIN);
+$salarioPorHora = fgets(STDIN);
+$horas = fgets(STDIN);
+$SALARY = ($horas*$salarioPorHora);
+echo "NUMBER = $NUMBER";
+echo "SALARY = U$ ".number_format($SALARY,2,".","") . "\n";
+//1009
+$NAME = fgets(STDIN);
+$salario = fgets(STDIN);
+$comissao = fgets(STDIN);
+$total = $salario+($comissao*0.15);
+printf ("TOTAL = R$ %.2f\n", $total);
+//1010
+$p1 = explode(" ", fgets(STDIN));
+$p2 = explode(" ", fgets(STDIN));
+$soma = number_format(($p1[1] * $p1[2]) + ($p2[1] * $p2[2]), 2, '.', '');
+echo "VALOR A PAGAR: R$ $soma\n";
+//1011
+$R = fgets(STDIN);
+$pi = 3.14159;
+$volume = $pi * (4.0/3) * pow($R,3);
+echo "VOLUME = " . number_format($volume,3,".","") . "\n";
+//1013
+$ABC = explode(" ", fgets(STDIN));
+$maiorAB = ($ABC[0] + $ABC[1]+abs($ABC[0] - $ABC[1]))/2;
+$maiorMaior = ($maiorAB + $ABC[2] + abs($maiorAB - $ABC[2]))/2;
+echo "$maiorMaior eh o maior" . "\n";
+//1014
+$X = (int) fgets(STDIN);
+$Y = (float) fgets(STDIN);
+echo number_format(($X / $Y), 3, '.', '') . " km/l\n";
+//1016
+$Y = fgets(STDIN);
+$kmh = $Y * 2;
+echo "$kmh minutos\n";
+//1012
+list($a, $b, $c) = fscanf(STDIN, "%f %f %f");
+$triangulo = ($a * $c) / 2;
+$circulo = 3.14159 * pow($c, 2);
+$trapezio = (($a + $b) * $c) / 2;
+$quadrado = pow($b, 2);
+$retangulo = $a * $b;
+printf("TRIANGULO: %.3f\n", $triangulo);
+printf("CIRCULO: %.3f\n", $circulo);
+printf("TRAPEZIO: %.3f\n", $trapezio);
+printf("QUADRADO: %.3f\n", $quadrado);
+printf("RETANGULO: %.3f\n", $retangulo);
+//1015
+list($x1, $y1) = fscanf(STDIN, "%f %f");
+list($x2, $y2) = fscanf(STDIN, "%f %f");
+$distancia =sqrt(pow($x2-$x1,2)+pow($y2-$y1,2));
+echo number_format($distancia, 4, '.', '') . "\n";
+//1017
+$horas = (int)fgets(STDIN);
+$velocidadekm = (int)fgets(STDIN);
+$distancia = $horas*$velocidadekm;
+$litros = $distancia/12;
+printf("%.3f\n",$litros);
+//1018
+$valor = (int) fgets(STDIN);
+$notas = array(100, 50, 20, 10, 5, 2, 1);
+$qtd_notas = array_fill(0, count($notas), 0);
+echo $valor . "\n";
+for ($i = 0, $size = count($notas); $i < $size; $i++) {
+    while ($valor >= $notas[$i]) {
+        $valor -= $notas[$i];
+        $qtd_notas[$i]++;
+    }
+}
+
+for ($i = 0, $size = count($notas); $i < $size; $i++) {
+    echo $qtd_notas[$i] . " nota(s) de R$ " . number_format($notas[$i], 2, ',', '.') . "\n";
+}
 
 ?>
