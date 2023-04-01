@@ -89,5 +89,59 @@ for ($i = 0, $size = count($notas); $i < $size; $i++) {
 for ($i = 0, $size = count($notas); $i < $size; $i++) {
     echo $qtd_notas[$i] . " nota(s) de R$ " . number_format($notas[$i], 2, ',', '.') . "\n";
 }
-
+//1019
+$segundos = intval(fgets(STDIN));
+$horas = intval($segundos / 3600);
+$minutos = in
+tval(($segundos % 3600) / 60);
+$segundos = $segundos % 60;
+printf("%d:%1d:%1d \n", $horas, $minutos, $segundos);
+//1020
+$diasDA = fgets(STDIN);
+$anos = intval($diasDA/365);
+$meses = intval(($diasDA%365)/30);
+$dias = intval(($diasDA%365)%30);
+echo number_format($anos,0,",",".")," ano(s)\n";
+echo number_format($meses,0,",",".")," mes(es)\n";
+echo number_format($dias,0,",",".")," dia(s)\n";
+//1021
+$valor = (float) fgets(STDIN);
+$centavos = (int) ($valor * 100);
+$notas_moedas = [
+    10000,
+    5000,
+    2000,
+    1000,
+    500,
+    200,
+    100,
+    50,
+    25,
+    10,
+    5,
+    1
+];
+$quantidades = array_fill(0, count($notas_moedas), 0);
+foreach ($notas_moedas as $indice => $valor_nota_moeda) {
+    $quantidade = (int) ($centavos / $valor_nota_moeda);
+    $centavos -= $quantidade * $valor_nota_moeda;
+    $quantidades[$indice] = $quantidade;
+}
+echo "NOTAS:\n";
+echo $quantidades[0] . " nota(s) de R$ 100.00\n";
+echo $quantidades[1] . " nota(s) de R$ 50.00\n";
+echo $quantidades[2] . " nota(s) de R$ 20.00\n";
+echo $quantidades[3] . " nota(s) de R$ 10.00\n";
+echo $quantidades[4] . " nota(s) de R$ 5.00\n";
+echo $quantidades[5] . " nota(s) de R$ 2.00\n";
+echo "MOEDAS:\n";
+echo $quantidades[6] . " moeda(s) de R$ 1.00\n";
+echo $quantidades[7] . " moeda(s) de R$ 0.50\n";
+echo $quantidades[8] . " moeda(s) de R$ 0.25\n";
+echo $quantidades[9] . " moeda(s) de R$ 0.10\n";
+echo $quantidades[10] . " moeda(s) de R$ 0.05\n";
+echo $quantidades[11] . " moeda(s) de R$ 0.01\n";
 ?>
+
+
+
