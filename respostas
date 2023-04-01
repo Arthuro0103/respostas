@@ -1,0 +1,19 @@
+<?php
+//1002
+$n = 3.14159;
+$raio = fgets(STDIN);
+$A = $n * pow($raio,2);
+echo "A=".number_format($A,4,".","") . "\n";
+//1005
+$A = fgets(STDIN);
+$B = fgets(STDIN);
+$MEDIA =($A*3.5+$B*7.5)/11;
+echo "MEDIA = ".number_format($MEDIA,5,".","") . "\n";
+
+$A = fgets(STDIN);
+$B = fgets(STDIN);
+$C = fgets(STDIN);
+$MEDIA =($A*2+$B*3+$C*5)/10;
+echo "MEDIA = ".number_format($MEDIA,1,".","") . "\n"
+
+?>
