@@ -141,7 +141,214 @@ echo $quantidades[8] . " moeda(s) de R$ 0.25\n";
 echo $quantidades[9] . " moeda(s) de R$ 0.10\n";
 echo $quantidades[10] . " moeda(s) de R$ 0.05\n";
 echo $quantidades[11] . " moeda(s) de R$ 0.01\n";
-?>
+//ex1
+class pessoa 
+{
+    private $nome;
+    private $idade;
+    private $sexo;
 
+    public function __construct ($nome,$idade,$sexo){
+
+    $this->nome = $nome;
+    $this->idade = $idade;
+    $this->sexo = $sexo;
+
+    }
+
+    public function retornanome(){
+        return $this->nome . PHP_EOL;
+    }
+
+    public function retornaidade(){
+        return $this->idade . PHP_EOL;
+    }
+    public function retornasexo(){
+        return $this->sexo . PHP_EOL;
+    }
+
+}
+$joao = new pessoa('joao','15','masculino');
+echo $joao->retornanome();
+echo $joao->retornaidade();
+echo $joao->retornasexo();
+//ex2
+class ContaBancaria 
+{
+    private $saldo;
+    public function __construct ($saldo){
+    $this->saldo = $saldo;
+    }
+    public function depositarEsacar(){
+        if (fgets(STDIN) < 1){
+        echo "deposite o valor desejado(1 novamente):";
+        return $this->saldo+fgets(STDIN) . PHP_EOL;
+    }
+    else {
+        echo "saque o valor desejado(2 novamente):";
+    if ($this->saldo>=fgets(STDIN)){
+        return $this->saldo-fgets(STDIN) . PHP_EOL;
+    }
+}
+        }
+    }
+$joao = new ContaBancaria('100');
+echo $joao->depositarEsacar();
+//ex3
+class Pessoa {
+    protected $nome;
+    protected $idade;
+    protected $sexo;
+    public function __construct($nome, $idade,$sexo) {
+        $this->nome = $nome;
+        $this->idade = $idade;
+        $this->sexo = $sexo;
+    }
+    public function retornanome(){
+        return $this->nome . PHP_EOL;
+    }
+
+    public function retornaidade(){
+        return $this->idade . PHP_EOL;
+    }
+    public function retornasexo(){
+        return $this->sexo . PHP_EOL;
+    }
+
+}
+
+class Funcionario extends Pessoa {
+    protected $salario;
+    
+    public function __construct($nome, $idade,$sexo, $salario) {
+        parent::__construct($nome, $idade,$sexo);
+        $this->salario = $salario;
+    }
+    public function retornasalario(){
+        return $this->salario . PHP_EOL;
+    }
+
+}
+
+
+$funcionario1 = new Funcionario("João", 30,'masculino', 2500.00);
+echo "Nome: " . $funcionario1->retornanome();
+echo "Idade: " . $funcionario1->retornaidade();
+echo "Sexo: " . $funcionario1->retornasexo();
+echo "Salário: R$ " . $funcionario1->retornasalario();
+
+//ex4
+interface formaGeometrica{
+  public function calculararea();  
+  public function calcularperimetro();  
+
+}
+class retangulo implements formaGeometrica{
+  protected $base;
+  protected $altura;  
+  public function __construct($base, $altura) {
+    $this->base = $base;
+    $this->altura = $altura;
+}
+
+public function calcularArea() {
+    return $this->base * $this->altura;
+}
+
+public function calcularPerimetro() {
+    return 2 * ($this->base + $this->altura);
+}
+}
+
+class circulo implements formaGeometrica{
+ protected $raio;  
+ public function __construct($raio) {
+    $this->raio = $raio;
+}
+
+public function calcularArea() {
+    return pi() * pow($this->raio, 2);
+}
+
+public function calcularPerimetro() {
+    return 2 * pi() * $this->raio;
+} 
+}
+$pessoaDoRetangulo = new Retangulo(10, 5);
+echo "Área do retângulo: " . $pessoaDoRetangulo->calcularArea(),"\n";
+echo "Perímetro do retângulo: " . $pessoaDoRetangulo->calcularPerimetro(),"\n";
+
+
+$pessoaDoCirculo = new Circulo(3);
+echo "Área do círculo: " . $pessoaDoCirculo->calcularArea(),"\n";
+echo "Perímetro do círculo: " . $pessoaDoCirculo->calcularPerimetro(),"\n";
+//ex5
+class carro{
+  private $marca;
+  private $modelo;
+  private $ano;
+  public $velocidadeAtual;
+  public function __construct ($marca,$modelo,$ano,$velocidadeAtual){
+    $this->marca = $marca;
+    $this->modelo = $modelo;
+    $this->ano = $ano;
+    $this->velocidadeAtual = $velocidadeAtual;
+  }
+
+public function retornamarca(){
+    return $this->marca . PHP_EOL;
+}
+
+public function retornamodelo(){
+    return $this->modelo . PHP_EOL;
+}
+public function retornaano(){
+    return $this->ano . PHP_EOL;
+}
+public function retornavelocidade(){
+    return $this->velocidadeAtual;
+}
+public function setvelocidade($velocidade){
+    $this->velocidadeAtual = $velocidade;
+}
+
+
+    }
+    $carro = new carro('chevrolet','v8','2010',60);
+    echo $carro->retornaano();
+    echo $carro->retornamodelo();
+    echo $carro->retornamarca();
+
+     function aumentaVelocidade($carro){
+      do{
+       
+       $velocidade = $carro->retornavelocidade() + $carro->retornavelocidade()*0.1;
+       $carro->setvelocidade($velocidade);
+       echo $carro->retornavelocidade().PHP_EOL;
+}        
+    while($carro->retornavelocidade() <= 120);
+        
+     }
+    aumentaVelocidade($carro);
+     //ex6
+abstract class Animal {
+    abstract public function emitirSom();
+}
+class Cachorro extends Animal {
+   public function emitirSom() {
+        echo "Au au!" . PHP_EOL;
+    }
+}
+class Gato extends Animal {
+    public function emitirSom() {
+        echo "Miau!" . PHP_EOL;
+    }
+}
+$cachorro = new Cachorro();
+$cachorro->emitirSom(); 
+$gato = new Gato();
+$gato->emitirSom();
+?>
+?>
 
 
