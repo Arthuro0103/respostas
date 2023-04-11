@@ -18,17 +18,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["cadastro"])) {
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Página de Login e Cadastro</title>
+  <title>pagina deo login e cadastro</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
-    <h1>Página de Login e Cadastro</h1>
+    <h1>pagina de login e cadastro</h1>
     <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
       <label for="username">Usuario:</label>
-      <input type="text" id="username" name="username" placeholder="Digite seu nome de usuario" required>
+      <input type="text" id="username" name="username" placeholder="digite seu nome de usuario" required>
       <label for="password">Senha:</label>
-      <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+      <input type="password" id="password" name="password" placeholder="digite sua senha" required>
       <input type="submit" name="login" value="Login"> 
       <input type="submit" name="cadastro" value="Cadastrar"> 
     </form>
@@ -75,7 +75,7 @@ CREATE TABLE usuarios (
 <!DOCTYPE html>
 <html>
 <head>
-  <title>cadastro de Usuario</title>
+  <title>cadastro de usuario</title>
 </head>
 <body>
   <h1>cadastro de usuario</h1>
@@ -158,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <title>excluir usuario</title>
 </head>
 <body>
-  <h1>excluir Usuario</h1>
+  <h1>excluir usuario</h1>
   <form action="excluir.php" method="post">
     <label for="id">ID do Usuário:</label>
     <input type="number" id="id" name="id" required>
@@ -208,5 +208,109 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </table>
 </body>
 </html>
-
-
+//questao13/14/15/16/17
+//13
+<?php
+$dsn = 'mysql:host=localhost;dbname=nomedobanco;charset=utf8mb4';
+$usuario = 'seu_usuario';
+$senha = 'sua_senha';
+try {
+  $conexao = new PDO($dsn, $usuario, $senha);
+  $conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  $conexao->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+} catch (PDOException $e) {
+  echo 'erro na conexao com o banco de dados: ' . $e->getMessage();
+}
+?>
+//14
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST")
+  $nome = $_POST['nome'];
+  $email = $_POST['email'];
+  $sql = "INSERT INTO usuarios (nome, email) VALUES (?, ?)";
+  $stmt = $conexao->prepare($sql);
+  $stmt->bindParam(1, $nome);
+  $stmt->bindParam(2, $email);
+  try {
+    $stmt->execute();
+    header("Location: lista_usuarios.php");
+    exit;
+  } catch (PDOException $e) {
+    echo "erro ao cadastrar usuario: " . $e->getMessage();
+  }
+}
+?>
+//15
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $id = $_POST['id'];
+  $sql = "DELETE FROM usuarios WHERE id=?";
+  $stmt = $conexao->prepare($sql);
+  $stmt->bindParam(1, $id, PDO::PARAM_INT);
+  try {
+    $stmt->execute();
+    header("Location: lista_usuarios.php");
+    exit;
+  } catch (PDOException $e) {
+    echo "erro ao excluir usuario: " . $e->getMessage();
+  }
+}
+?>
+//16
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $id = $_POST['id'];
+  $nome = $_POST['nome'];
+  $email = $_POST['email'];
+  $sql = "UPDATE usuarios SET nome=?, email=? WHERE id=?";
+  $stmt = $conexao->prepare($sql);
+  $stmt->bindParam(1, $nome);
+  $stmt->bindParam(2, $email);
+  $stmt->bindParam(3, $id, PDO::PARAM_INT);
+  try {
+    $stmt->execute();
+    header("Location: lista_usuarios.php");
+    exit;
+  } catch (PDOException $e) {
+    echo "erro ao atualizar usuario: " . $e->getMessage();
+  }
+}
+?>
+//17
+<?php
+$sql = "SELECT * FROM usuarios";
+$stmt = $conexao->prepare($sql);
+$stmt->execute();
+$resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>lista de usuarios</title>
+</head>
+<body>
+  <h1>lista de usuarios</h1>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>Email</th>
+      <th>Ações</th>
+    </tr>
+    <?php foreach ($resultados as $resultado) { ?>
+      <tr>
+        <td><?php echo $resultado['id']; ?></td>
+        <td><?php echo $resultado['nome']; ?></td>
+        <td><?php echo $resultado['email']; ?></td>
+        <td>
+          <a href="editar.php?id=<?php echo $resultado['id']; ?>">Editar</a>
+          <form method="post" action="excluir.php">
+            <input type="hidden" name="id" value="<?php echo $resultado['id']; ?>">
+            <input type="submit" value="Excluir">
+          </form>
+        </td>
+      </tr>
+    <?php } ?>
+  </table>
+</body>
+</html>
