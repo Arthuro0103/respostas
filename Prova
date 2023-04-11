@@ -1,0 +1,212 @@
+//trabalho final
+//questao1/3
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
+  $username = $_POST["username"];
+  $password = $_POST["password"];
+  header("Location: perfil.php");
+  exit();
+}
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["cadastro"])) {
+  $username = $_POST["username"];
+  $password = $_POST["password"];
+  $email = $_POST["
+  header("Location: perfil.php");
+  exit();
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Página de Login e Cadastro</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Página de Login e Cadastro</h1>
+    <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
+      <label for="username">Usuario:</label>
+      <input type="text" id="username" name="username" placeholder="Digite seu nome de usuario" required>
+      <label for="password">Senha:</label>
+      <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+      <input type="submit" name="login" value="Login"> 
+      <input type="submit" name="cadastro" value="Cadastrar"> 
+    </form>
+    <p>Ainda nao tem uma conta? <a href="cadastro.php">Cadastre-se</a></p>
+  </div>
+</body>
+</html>
+//questao2/4/5
+<?php
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+  header("Location: login.php");
+  exit();
+}
+if (isset($_POST['logout'])) {
+  session_destroy();
+  header("Location: login.php");
+  exit();
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>pagina principal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>bem vindo a pagina principal</h1>
+    <p>Olá, <?php echo $_SESSION['username']; ?>. voce esta logado com o usuario <?php echo $_SESSION['username'];?>.</p>
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+      <input type="submit" name="logout" value="Logout">
+    </form>
+  </div>
+</body>
+</html>
+//questao6
+CREATE TABLE usuarios (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(55) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  password VARCHAR(50) NOT NULL
+);
+//questao9
+<!DOCTYPE html>
+<html>
+<head>
+  <title>cadastro de Usuario</title>
+</head>
+<body>
+  <h1>cadastro de usuario</h1>
+  <form action="cadastro.php" method="post">
+    <label for="username">Nome de Usuário:</label>
+    <input type="text" id="username" name="username" required>
+    <br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <br>
+    <label for="password">Senha:</label>
+    <input type="password" id="password" name="password" required>
+    <br>
+    <input type="submit" value="Cadastrar">
+  </form>
+</body>
+</html>
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $username = $_POST["username"];
+  $email = $_POST["email"];
+  $password = $_POST["password"];
+  $mysqli = new mysqli("localhost", "usuario", "senha", "nome_do_banco");
+  if($mysqli->connect_error) {
+    die("Erro na conexão: " . $mysqli->connect_error);
+  }
+  $sql = "INSERT INTO usuarios (username, email, password) VALUES (?, ?, ?)";
+  $stmt = $mysqli->prepare($sql);
+  $stmt->bind_param("sss", $username, $email, $password);
+  if ($stmt->execute()) {
+    echo "cadastro realizado com sucesso";
+  } else {
+    echo "erro ao cadastrar o usuario: " . $stmt->error;
+  }
+  $stmt->close();
+  $mysqli->close();
+}
+?>
+//questao10
+<!DOCTYPE html>
+<html>
+<head>
+  <title>editar usuario</title>
+</head>
+<body>
+  <h1>editar usuario</h1>
+  <form action="editar.php" method="post">
+    <label for="username">Nome de usuario:</label>
+    <input type="text" id="username" name="username" required>
+    <br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <br>
+    <label for="password">Nova senha:</label>
+    <input type="password" id="password" name="password">
+    <br>
+    <input type="submit" value="Salvar">
+  </form>
+</body>
+</html>
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $username = $_POST['username'];
+  $email = $_POST['email'];
+  $novaSenha = $_POST['password'];
+  $sql = "UPDATE usuarios SET username='$username', email='$email', senha='$novaSenha' WHERE id=$id";
+  $resultado = mysqli_query($conexao, $sql);
+  if ($resultado) {
+    header("Location: perfil.php");
+    exit;
+  } else {
+    echo "erro ao atualizar dados do usuario: " . mysqli_error($conexao);
+  }
+}
+?>
+//questao11
+<!DOCTYPE html>
+<html>
+<head>
+  <title>excluir usuario</title>
+</head>
+<body>
+  <h1>excluir Usuario</h1>
+  <form action="excluir.php" method="post">
+    <label for="id">ID do Usuário:</label>
+    <input type="number" id="id" name="id" required>
+    <br>
+    <input type="submit" value="Excluir">
+  </form>
+</body>
+</html>
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $id = $_POST['id'];
+  $sql = "DELETE FROM usuarios WHERE id=$id";
+  $resultado = mysqli_query($conexao, $sql);
+  if ($resultado) {
+    header("Location: lista_usuarios.php");
+    exit;
+  } else {
+    echo "erro ao excluir usuario: " . mysqli_error($conexao);
+  }
+}
+?>
+//questao12
+<!DOCTYPE html>
+<html>
+<head>
+  <title>listar usuarios</title>
+</head>
+<body>
+  <h1>listar usuarios</h1>
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>Email</th>
+    </tr>
+    <?php
+    $sql = "SELECT id, nome, email FROM usuarios";
+    $resultado = mysqli_query($conexao, $sql);
+    while ($linha = mysqli_fetch_assoc($resultado)) {
+      echo "<tr>";
+      echo "<td>{$linha['id']}</td>";
+      echo "<td>{$linha['nome']}</td>";
+      echo "<td>{$linha['email']}</td>";
+      echo "</tr>";
+    }
+    ?>
+  </table>
+</body>
+</html>
+
+
